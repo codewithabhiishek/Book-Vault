@@ -1,0 +1,60 @@
+{
+  "name": "Book",
+  "type": "object",
+  "properties": {
+    "title": {
+      "type": "string",
+      "description": "Book title"
+    },
+    "author": {
+      "type": "string",
+      "description": "Book author"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "reading",
+        "finished",
+        "abandoned",
+        "want_to_read"
+      ],
+      "default": "want_to_read",
+      "description": "Reading status"
+    },
+    "start_date": {
+      "type": "string",
+      "format": "date",
+      "description": "Date started reading"
+    },
+    "finish_date": {
+      "type": "string",
+      "format": "date",
+      "description": "Date finished reading"
+    },
+    "rating": {
+      "type": "number",
+      "description": "Rating 1-5"
+    },
+    "cover_url": {
+      "type": "string",
+      "description": "Book cover image URL"
+    },
+    "pages": {
+      "type": "number",
+      "description": "Total pages in the book"
+    },
+    "pages_read": {
+      "type": "number",
+      "description": "Pages read so far",
+      "default": 0
+    },
+    "genre": {
+      "type": "string",
+      "description": "Book genre"
+    }
+  },
+  "required": [
+    "title",
+    "author"
+  ]
+}

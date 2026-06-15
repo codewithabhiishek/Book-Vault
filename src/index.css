@@ -1,0 +1,161 @@
+@import url('https://fonts.googleapis.com/css2?family=Anton&family=Bebas+Neue&family=Archivo+Black&family=Inter:wght@400;500;600;700&family=Space+Mono:ital,wght@0,400;0,700;1,400;1,700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 40 33% 94%;
+    --foreground: 214 43% 10%;
+    --card: 0 0% 100%;
+    --card-foreground: 214 43% 10%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 214 43% 10%;
+    --primary: 181 100% 40%;
+    --primary-foreground: 0 0% 0%;
+    --secondary: 48 100% 50%;
+    --secondary-foreground: 0 0% 0%;
+    --muted: 40 30% 88%;
+    --muted-foreground: 214 15% 40%;
+    --accent: 304 100% 42%;
+    --accent-foreground: 0 0% 100%;
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 100%;
+    --border: 214 43% 10%;
+    --input: 214 43% 10%;
+    --ring: 181 100% 40%;
+    --chart-1: 181 100% 40%;
+    --chart-2: 48 100% 50%;
+    --chart-3: 304 100% 42%;
+    --chart-4: 214 43% 10%;
+    --chart-5: 40 30% 88%;
+    --radius: 0px;
+    --font-heading: 'Anton', sans-serif;
+    --font-body: 'Inter', sans-serif;
+    --font-display: 'Bebas Neue', sans-serif;
+    --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+    --sidebar-background: 40 33% 90%;
+    --sidebar-foreground: 214 43% 10%;
+    --sidebar-primary: 181 100% 40%;
+    --sidebar-primary-foreground: 0 0% 0%;
+    --sidebar-accent: 40 30% 85%;
+    --sidebar-accent-foreground: 214 43% 10%;
+    --sidebar-border: 40 30% 80%;
+    --sidebar-ring: 181 100% 40%;
+  }
+
+  .dark {
+    --background: 214 43% 10%;
+    --foreground: 40 33% 90%;
+    --card: 214 40% 13%;
+    --card-foreground: 40 33% 90%;
+    --popover: 214 40% 13%;
+    --popover-foreground: 40 33% 90%;
+    --primary: 181 100% 40%;
+    --primary-foreground: 0 0% 0%;
+    --secondary: 48 100% 50%;
+    --secondary-foreground: 0 0% 0%;
+    --muted: 214 30% 18%;
+    --muted-foreground: 214 15% 55%;
+    --accent: 304 100% 42%;
+    --accent-foreground: 0 0% 100%;
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 100%;
+    --border: 40 33% 90%;
+    --input: 40 33% 90%;
+    --ring: 181 100% 40%;
+    --chart-1: 181 100% 40%;
+    --chart-2: 48 100% 50%;
+    --chart-3: 304 100% 42%;
+    --chart-4: 40 33% 90%;
+    --chart-5: 214 30% 18%;
+    --sidebar-background: 214 45% 7%;
+    --sidebar-foreground: 40 33% 90%;
+    --sidebar-primary: 181 100% 40%;
+    --sidebar-primary-foreground: 0 0% 0%;
+    --sidebar-accent: 214 40% 14%;
+    --sidebar-accent-foreground: 40 33% 90%;
+    --sidebar-border: 214 30% 20%;
+    --sidebar-ring: 181 100% 40%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground;
+    font-family: 'Inter', sans-serif !important;
+  }
+}
+
+/* Neo-Brutalist Utilities */
+.brutal-border {
+  border: 4px solid hsl(var(--border));
+}
+
+.brutal-border-thick {
+  border: 6px solid hsl(var(--border));
+}
+
+.brutal-shadow {
+  box-shadow: 4px 4px 0px hsl(var(--border));
+}
+
+.brutal-shadow-lg {
+  box-shadow: 8px 8px 0px hsl(var(--border));
+}
+
+.brutal-shadow-xl {
+  box-shadow: 12px 12px 0px hsl(var(--border));
+}
+
+.brutal-hover {
+  transition: all 200ms ease;
+}
+
+.brutal-hover:hover {
+  transform: translate(-2px, -2px);
+  box-shadow: 8px 8px 0px hsl(var(--border));
+}
+
+.brutal-btn {
+  border: 4px solid hsl(var(--border));
+  box-shadow: 4px 4px 0px hsl(var(--border));
+  transition: all 150ms ease;
+  font-family: 'Bebas Neue', sans-serif;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.brutal-btn:hover {
+  transform: translate(-2px, -2px);
+  box-shadow: 6px 6px 0px hsl(var(--border));
+}
+
+.brutal-btn:active {
+  transform: translate(2px, 2px);
+  box-shadow: 0px 0px 0px hsl(var(--border));
+}
+
+/* Fix text contrast and font in light-background inputs, select, and textarea elements */
+input.bg-white,
+textarea.bg-white,
+select.bg-white,
+[data-radix-popper-content-wrapper] select,
+.bg-white select,
+.bg-white input,
+button.bg-white {
+  color: #000000 !important;
+  font-family: 'Space Mono', monospace !important;
+}
+
+/* Make sure standard placeholders are readable and use the custom font */
+.bg-white::placeholder,
+input.bg-white::placeholder,
+textarea.bg-white::placeholder {
+  color: #555555 !important;
+  font-family: 'Space Mono', monospace !important;
+}

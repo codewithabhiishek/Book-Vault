@@ -1,0 +1,40 @@
+{
+  "name": "Quote",
+  "type": "object",
+  "properties": {
+    "book_id": {
+      "type": "string",
+      "description": "Reference to the book"
+    },
+    "book_title": {
+      "type": "string",
+      "description": "Book title for display"
+    },
+    "book_author": {
+      "type": "string",
+      "description": "Book author for display"
+    },
+    "quote_text": {
+      "type": "string",
+      "description": "The quote text"
+    },
+    "page_number": {
+      "type": "number",
+      "description": "Page number of the quote"
+    },
+    "color": {
+      "type": "string",
+      "enum": [
+        "teal",
+        "yellow",
+        "pink"
+      ],
+      "default": "yellow",
+      "description": "Card color theme"
+    }
+  },
+  "required": [
+    "quote_text",
+    "book_id"
+  ]
+}
