@@ -29,18 +29,25 @@ export default function BookCard({ book }) {
       </div>
 
       <div className="p-4">
-        <h3 className="font-heading text-lg leading-tight line-clamp-2 mb-1">
+        <h3 className="font-heading text-lg leading-tight line-clamp-2 mb-1 capitalize">
           {book.title}
         </h3>
-        <p className="text-sm text-muted-foreground font-body mb-3">{book.author}</p>
+        <p className="text-sm text-muted-foreground font-display tracking-wide uppercase mb-3">{book.author}</p>
 
         {book.rating > 0 && (
           <div className="flex gap-0.5 mb-3">
             {[1, 2, 3, 4, 5].map(s => (
-              <Star
-                key={s}
-                className={`w-4 h-4 ${s <= book.rating ? 'fill-brutal-yellow text-black' : 'text-foreground/15'}`}
-              />
+              <div key={s} className="relative">
+                <Star className="w-4 h-4 text-foreground/15" />
+                {s <= book.rating && (
+                  <Star className="w-4 h-4 fill-brutal-yellow text-black absolute top-0 left-0" />
+                )}
+                {s - 0.5 === book.rating && (
+                  <div className="absolute top-0 left-0 overflow-hidden w-[50%]">
+                    <Star className="w-4 h-4 fill-brutal-yellow text-black" />
+                  </div>
+                )}
+              </div>
             ))}
           </div>
         )}

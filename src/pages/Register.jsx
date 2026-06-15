@@ -48,39 +48,39 @@ export default function Register() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-brutal-bg px-4">
+    <div className="min-h-screen flex items-center justify-center bg-background px-4">
       <div className="w-full max-w-md">
-        <div className="flex items-center justify-center gap-2 mb-8">
-          <BookOpen className="w-8 h-8 text-brutal-teal" />
-          <h1 className="text-2xl font-black">Book Vault</h1>
+        <div className="flex items-center justify-center gap-3 mb-8">
+          <BookOpen className="w-10 h-10 text-brutal-teal" />
+          <h1 className="text-4xl md:text-5xl font-heading tracking-wide">BOOK VAULT</h1>
         </div>
-        <div className="brutal-card p-6">
-          <h2 className="text-xl font-bold mb-6">Create Account</h2>
-          {error && <p className="text-red-500 text-sm mb-4">{error}</p>}
-          <form onSubmit={handleRegister} className="space-y-4">
+        <div className="brutal-border brutal-shadow-lg bg-white p-8">
+          <h2 className="text-3xl font-heading mb-6 tracking-wide">CREATE ACCOUNT</h2>
+          {error && <p className="text-destructive font-mono text-sm mb-4 bg-destructive/10 p-3 brutal-border">{error}</p>}
+          <form onSubmit={handleRegister} className="space-y-5">
             <div>
-              <Label htmlFor="email">Email</Label>
-              <Input id="email" type="email" value={email} onChange={e => setEmail(e.target.value)} required />
+              <Label htmlFor="email" className="font-mono uppercase text-muted-foreground text-xs font-bold tracking-wider mb-2 block">Email</Label>
+              <Input id="email" type="email" value={email} onChange={e => setEmail(e.target.value)} required className="brutal-border bg-white rounded-none h-12 font-mono text-base focus-visible:ring-brutal-teal focus-visible:ring-2 focus-visible:ring-offset-0" />
             </div>
             <div>
-              <Label htmlFor="password">Password</Label>
-              <Input id="password" type="password" value={password} onChange={e => setPassword(e.target.value)} required />
+              <Label htmlFor="password" className="font-mono uppercase text-muted-foreground text-xs font-bold tracking-wider mb-2 block">Password</Label>
+              <Input id="password" type="password" value={password} onChange={e => setPassword(e.target.value)} required className="brutal-border bg-white rounded-none h-12 font-mono text-base focus-visible:ring-brutal-teal focus-visible:ring-2 focus-visible:ring-offset-0" />
             </div>
             <div>
-              <Label htmlFor="confirmPassword">Confirm Password</Label>
-              <Input id="confirmPassword" type="password" value={confirmPassword} onChange={e => setConfirmPassword(e.target.value)} required />
+              <Label htmlFor="confirmPassword" className="font-mono uppercase text-muted-foreground text-xs font-bold tracking-wider mb-2 block">Confirm Password</Label>
+              <Input id="confirmPassword" type="password" value={confirmPassword} onChange={e => setConfirmPassword(e.target.value)} required className="brutal-border bg-white rounded-none h-12 font-mono text-base focus-visible:ring-brutal-teal focus-visible:ring-2 focus-visible:ring-offset-0" />
             </div>
-            <Button type="submit" className="w-full" disabled={isLoading}>
-              {isLoading ? "Creating account..." : "Create Account"}
+            <Button type="submit" className="w-full brutal-btn bg-brutal-teal text-black hover:bg-brutal-teal/90 font-display tracking-widest text-xl h-14 rounded-none mt-2" disabled={isLoading}>
+              {isLoading ? "CREATING..." : "CREATE ACCOUNT"}
             </Button>
           </form>
-          <div className="mt-4">
-            <Button variant="outline" className="w-full" onClick={handleGoogleLogin} disabled={isLoading}>
-              <GoogleIcon className="w-4 h-4 mr-2" /> Continue with Google
+          <div className="mt-5">
+            <Button variant="outline" className="w-full brutal-btn bg-brutal-yellow text-black hover:bg-brutal-yellow/90 font-display tracking-widest text-lg h-14 rounded-none border-none" onClick={handleGoogleLogin} disabled={isLoading}>
+              <GoogleIcon className="w-5 h-5 mr-3" /> CONTINUE WITH GOOGLE
             </Button>
           </div>
-          <p className="text-sm text-center mt-4">
-            Already have an account? <Link to="/login" className="underline font-bold">Sign In</Link>
+          <p className="font-mono text-sm text-center mt-8 text-muted-foreground uppercase">
+            Already have an account? <Link to="/login" className="font-bold text-foreground hover:text-brutal-teal hover:underline transition-colors ml-2">Sign In</Link>
           </p>
         </div>
       </div>

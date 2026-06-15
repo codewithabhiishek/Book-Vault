@@ -80,13 +80,23 @@ export default function BookDetails() {
 
         <div>
           <StatusBadge status={book.status} />
-          <h1 className="font-heading text-4xl md:text-6xl mt-3 mb-2">{book.title}</h1>
-          <p className="text-xl text-muted-foreground font-body mb-4">{book.author}</p>
+          <h1 className="font-heading text-4xl md:text-6xl mt-3 mb-2 capitalize">{book.title}</h1>
+          <p className="text-xl text-muted-foreground font-display tracking-wide uppercase mb-4">{book.author}</p>
 
           {book.rating > 0 && (
             <div className="flex gap-1 mb-4">
               {[1, 2, 3, 4, 5].map(s => (
-                <Star key={s} className={`w-6 h-6 ${s <= book.rating ? 'fill-brutal-yellow text-black' : 'text-foreground/15'}`} />
+                <div key={s} className="relative">
+                  <Star className="w-6 h-6 text-foreground/15" />
+                  {s <= book.rating && (
+                    <Star className="w-6 h-6 fill-brutal-yellow text-black absolute top-0 left-0" />
+                  )}
+                  {s - 0.5 === book.rating && (
+                    <div className="absolute top-0 left-0 overflow-hidden w-[50%]">
+                      <Star className="w-6 h-6 fill-brutal-yellow text-black" />
+                    </div>
+                  )}
+                </div>
               ))}
             </div>
           )}

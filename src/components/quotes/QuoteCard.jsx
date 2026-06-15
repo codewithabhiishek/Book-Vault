@@ -18,7 +18,7 @@ export default function QuoteCard({ quote, onShare }) {
         "{quote.quote_text}"
       </p>
       <div className="border-t-2 border-black/20 pt-3">
-        <p className="font-display text-sm tracking-wide">{quote.book_title}</p>
+        <p className="font-display text-sm tracking-wide capitalize">{quote.book_title}</p>
         <div className="flex justify-between items-center mt-1">
           <span className="text-xs opacity-60">{quote.book_author}</span>
           <div className="flex gap-2 items-center text-xs opacity-60">

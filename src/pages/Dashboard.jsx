@@ -96,6 +96,9 @@ export default function Dashboard() {
 function HeroSection() {
   return (
     <div className="mb-10">
+      <div className="inline-block bg-brutal-yellow text-black font-display tracking-widest px-4 py-2 text-lg md:text-2xl border-4 border-black mb-6 brutal-shadow">
+        WELCOME, ABHISHEK
+      </div>
       <h1 className="font-heading text-5xl md:text-7xl lg:text-8xl leading-none mb-3">
         MY READING<br />
         <span className="text-brutal-teal">SYSTEM</span>

@@ -239,24 +239,36 @@ export default function AddBookModal({ open, onClose, editBook }) {
           <div>
             <Label className="font-display text-sm tracking-wide">RATING</Label>
             <div className="flex gap-1 mt-1">
-              {[1, 2, 3, 4, 5].map(star => (
-                <button
-                  key={star}
-                  type="button"
-                  onClick={() => setForm({ ...form, rating: star })}
-                  onMouseEnter={() => setHoverRating(star)}
-                  onMouseLeave={() => setHoverRating(0)}
-                  className="p-1 transition-transform duration-150 hover:scale-125"
-                >
-                  <Star
-                    className={`w-7 h-7 ${
-                      star <= (hoverRating || form.rating)
-                        ? 'fill-brutal-yellow text-black'
-                        : 'text-foreground/20'
-                    }`}
-                  />
-                </button>
-              ))}
+              {[1, 2, 3, 4, 5].map(star => {
+                const currentRating = hoverRating || form.rating;
+                return (
+                  <button
+                    key={star}
+                    type="button"
+                    onClick={() => setForm({ ...form, rating: hoverRating || star })}
+                    onMouseMove={(e) => {
+                      const rect = e.currentTarget.getBoundingClientRect();
+                      const x = e.clientX - rect.left;
+                      const isHalf = x < rect.width / 2;
+                      setHoverRating(isHalf ? star - 0.5 : star);
+                    }}
+                    onMouseLeave={() => setHoverRating(0)}
+                    className="p-1 transition-transform duration-150 hover:scale-125"
+                  >
+                    <div className="relative">
+                      <Star className="w-7 h-7 text-foreground/20" />
+                      {star <= currentRating && (
+                        <Star className="w-7 h-7 fill-brutal-yellow text-black absolute top-0 left-0" />
+                      )}
+                      {star - 0.5 === currentRating && (
+                        <div className="absolute top-0 left-0 overflow-hidden w-[50%]">
+                          <Star className="w-7 h-7 fill-brutal-yellow text-black" />
+                        </div>
+                      )}
+                    </div>
+                  </button>
+                );
+              })}
             </div>
           </div>
 

@@ -132,11 +132,14 @@ export default function ShareQuoteModal({ open, onClose, quote }) {
             <div style={{ borderColor: activeTheme.border, opacity: 0.3 }} className="border-t-2 pt-4">
               <p
                 style={{ fontFamily: 'Bebas Neue, Bebas Neue, sans-serif', color: activeTheme.text, letterSpacing: '0.1em' }}
-                className="text-xl font-bold"
+                className="text-xl font-bold capitalize"
               >
                 {quote.book_title}
               </p>
-              <p style={{ color: activeTheme.text, opacity: 0.6 }} className="text-sm mt-1">
+              <p 
+                style={{ fontFamily: 'Bebas Neue, sans-serif', color: activeTheme.text, opacity: 0.8, letterSpacing: '0.05em' }} 
+                className="text-lg mt-1 uppercase"
+              >
                 {quote.book_author}
               </p>
             </div>

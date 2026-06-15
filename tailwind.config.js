@@ -50,11 +50,11 @@ module.exports = {
   				'4': 'hsl(var(--chart-4))',
   				'5': 'hsl(var(--chart-5))'
   			},
-  			'brutal-teal': '#00C2CB',
-  			'brutal-yellow': '#FFD600',
-  			'brutal-pink': '#FF00D6',
-  			'brutal-beige': '#F5F1E8',
-  			'brutal-black': '#000000',
+   			'brutal-teal': '#00C2CB',
+   			'brutal-yellow': '#FFD600',
+   			'brutal-pink': '#FF00D6',
+   			'brutal-beige': '#F5F1E8',
+   			'brutal-black': '#000000',
   			sidebar: {
   				DEFAULT: 'hsl(var(--sidebar-background))',
   				foreground: 'hsl(var(--sidebar-foreground))',

@@ -79,7 +79,7 @@ export default function SettingsPage() {
 
         <div className="brutal-border brutal-shadow bg-white p-6">
           <h3 className="font-heading text-2xl mb-2">DATA</h3>
-          <p className="text-sm text-muted-foreground mb-4">Export or import your reading data as JSON.</p>
+          <p className="text-sm text-muted-foreground font-mono uppercase mb-4">Export or import your reading data as JSON.</p>
 
           <div className="flex flex-wrap gap-3">
             <button
