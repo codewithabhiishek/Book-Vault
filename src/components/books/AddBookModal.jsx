@@ -5,6 +5,8 @@ import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Star } from 'lucide-react';
 import { Book } from '@/api/entities';
+import { storage } from '@/api/firebaseClient';
+import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 import { useQueryClient } from '@tanstack/react-query';
 import { toast } from 'sonner';
 
@@ -82,14 +84,47 @@ export default function AddBookModal({ open, onClose, editBook }) {
     return null;
   };
 
+  const uploadCoverToStorage = async (imageUrl) => {
+    if (!imageUrl || imageUrl.includes('firebasestorage.googleapis.com')) {
+      return imageUrl; // Already in storage or no image
+    }
+    
+    try {
+      // Fetch the image from the remote URL
+      const response = await fetch(imageUrl);
+      if (!response.ok) throw new Error('Failed to fetch image');
+      
+      const blob = await response.blob();
+      
+      // Generate unique filename
+      const filename = `covers/cover_${Date.now()}_${Math.random().toString(36).substring(7)}.jpg`;
+      const storageRef = ref(storage, filename);
+      
+      // Upload to Firebase
+      await uploadBytes(storageRef, blob);
+      
+      // Get permanent download URL
+      const downloadUrl = await getDownloadURL(storageRef);
+      return downloadUrl;
+    } catch (err) {
+      console.error('Failed to upload cover to Firebase Storage, falling back to hotlink:', err);
+      return imageUrl; // Fallback to the original URL if upload or CORS fails
+    }
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
 
     try {
-      let coverUrl = form.cover_url;
-      if (!coverUrl) {
-        coverUrl = await fetchCover(form.title, form.author);
+      let finalCoverUrl = form.cover_url;
+      
+      if (!finalCoverUrl) {
+        finalCoverUrl = await fetchCover(form.title, form.author);
+      }
+
+      if (finalCoverUrl) {
+        finalCoverUrl = await uploadCoverToStorage(finalCoverUrl);
       }
 
       const bookData = {
@@ -102,7 +137,7 @@ export default function AddBookModal({ open, onClose, editBook }) {
         pages: form.pages ? Number(form.pages) : 0,
         pages_read: form.pages_read ? Number(form.pages_read) : 0,
         genre: form.genre || '',
-        cover_url: coverUrl || '',
+        cover_url: finalCoverUrl || '',
       };
 
       if (editBook) {
