@@ -38,7 +38,7 @@ export default function AddQuoteModal({ open, onClose, book }) {
       onClose();
     } catch (err) {
       console.error(err);
-      toast.error(err.message || 'Failed to save quote. Make sure the public.quotes table exists in Supabase.');
+      toast.error(err.message || 'Failed to save quote. Please try again.');
     } finally {
       setLoading(false);
     }

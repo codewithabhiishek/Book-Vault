@@ -70,9 +70,9 @@ export default function Quotes() {
           subtitle={search ? "Try a different search." : "Save your favorite passages from books."}
         />
       ) : (
-        <div className="columns-1 md:columns-2 lg:columns-3 gap-4 space-y-4">
+        <div className="columns-1 md:columns-2 lg:columns-3 gap-4">
           {filtered.map(q => (
-            <div key={q.id} className="break-inside-avoid">
+            <div key={q.id} className="break-inside-avoid mb-4">
               <QuoteCard quote={q} onShare={setShareQuote} />
             </div>
           ))}

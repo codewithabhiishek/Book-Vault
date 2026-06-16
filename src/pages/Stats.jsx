@@ -48,10 +48,16 @@ export default function Stats() {
     const booksPerMonth = Object.entries(monthlyData)
       .sort((a, b) => a[0].localeCompare(b[0]))
       .slice(-12)
-      .map(([month, count]) => ({
-        month: new Date(month + '-01').toLocaleDateString('en', { month: 'short', year: '2-digit' }),
-        count,
-      }));
+      .map(([month, count]) => {
+        const [yearStr, monthStr] = month.split('-');
+        const monthIndex = Number(monthStr) - 1;
+        const yearShort = yearStr.slice(-2);
+        const shortMonthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+        return {
+          month: `${shortMonthNames[monthIndex]} ${yearShort}`,
+          count,
+        };
+      });
 
     // Genre distribution
     const genreCounts = {};

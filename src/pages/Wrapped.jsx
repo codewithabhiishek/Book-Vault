@@ -3,6 +3,7 @@ import { Book, Quote } from '@/api/entities';
 import { useQuery } from '@tanstack/react-query';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ChevronLeft, ChevronRight, BookOpen, FileText, User, Star, BookMarked, Sparkles } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 
 const slideColors = [
   'bg-brutal-teal',
@@ -15,6 +16,7 @@ const slideColors = [
 ];
 
 export default function Wrapped() {
+  const navigate = useNavigate();
   const [current, setCurrent] = useState(0);
 
   const { data: books = [] } = useQuery({
@@ -101,6 +103,27 @@ export default function Wrapped() {
 
   const next = () => setCurrent(c => Math.min(c + 1, slides.length - 1));
   const prev = () => setCurrent(c => Math.max(c - 1, 0));
+
+  if (stats.thisYear.length === 0) {
+    return (
+      <div className="p-6 md:p-10 flex flex-col items-center min-h-[80vh]">
+        <h1 className="font-heading text-5xl md:text-6xl mb-8 self-start">WRAPPED</h1>
+        <div className="w-full max-w-lg brutal-border-thick brutal-shadow-xl bg-brutal-yellow p-8 text-center my-auto">
+          <Sparkles className="w-16 h-16 mx-auto mb-6 text-black opacity-80 animate-pulse" />
+          <h2 className="font-heading text-3xl mb-4">NO WRAPPED DATA YET</h2>
+          <p className="font-display text-lg tracking-wide mb-6">
+            Finish at least one book in {stats.year} to unlock your Reading Wrapped!
+          </p>
+          <button
+            onClick={() => navigate('/library')}
+            className="brutal-btn bg-white text-black px-6 py-3 font-display tracking-widest text-lg"
+          >
+            EXPLORE LIBRARY
+          </button>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="p-6 md:p-10 flex flex-col items-center min-h-[80vh]">

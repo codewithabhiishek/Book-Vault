@@ -35,24 +35,50 @@ export default function SettingsPage() {
     const file = e.target.files?.[0];
     if (!file) return;
 
-    const text = await file.text();
-    const data = JSON.parse(text);
-
-    if (data.books) {
-      for (const book of data.books) {
-        const { id, created_date, updated_date, created_by_id, ...bookData } = book;
-        await Book.create(bookData);
+    const toastId = toast.loading('Importing your data...');
+    try {
+      const text = await file.text();
+      let data;
+      try {
+        data = JSON.parse(text);
+      } catch (err) {
+        throw new Error('Invalid file format. Please upload a valid JSON backup.');
       }
-    }
-    if (data.quotes) {
-      for (const quote of data.quotes) {
-        const { id, created_date, updated_date, created_by_id, ...quoteData } = quote;
-        await Quote.create(quoteData);
-      }
-    }
 
-    queryClient.invalidateQueries();
-    toast.success('Data imported successfully!');
+      if (!data.books && !data.quotes) {
+        throw new Error('No compatible Book-Vault data found in file.');
+      }
+
+      const bookIdMap = {};
+
+      if (data.books && Array.isArray(data.books)) {
+        for (const book of data.books) {
+          const { id: oldId, created_date, updated_date, created_by_id, ...bookData } = book;
+          const newBook = await Book.create(bookData);
+          if (oldId && newBook?.id) {
+            bookIdMap[oldId] = newBook.id;
+          }
+        }
+      }
+
+      if (data.quotes && Array.isArray(data.quotes)) {
+        for (const quote of data.quotes) {
+          const { id, created_date, updated_date, created_by_id, ...quoteData } = quote;
+          if (quoteData.book_id && bookIdMap[quoteData.book_id]) {
+            quoteData.book_id = bookIdMap[quoteData.book_id];
+          }
+          await Quote.create(quoteData);
+        }
+      }
+
+      queryClient.invalidateQueries();
+      toast.success('Data imported successfully!', { id: toastId });
+    } catch (err) {
+      console.error(err);
+      toast.error(err.message || 'Failed to import data.', { id: toastId });
+    } finally {
+      e.target.value = '';
+    }
   };
 
   const handleToggleTheme = () => {
