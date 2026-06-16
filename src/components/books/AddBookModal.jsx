@@ -12,10 +12,10 @@ import { Calendar } from '@/components/ui/calendar';
 import { format } from 'date-fns';
 
 const statusOptions = [
-  { value: 'reading', label: 'Reading' },
-  { value: 'finished', label: 'Finished' },
-  { value: 'want_to_read', label: 'Want To Read' },
-  { value: 'abandoned', label: 'Abandoned' },
+  { value: 'reading', label: 'Reading', color: 'bg-brutal-teal' },
+  { value: 'finished', label: 'Finished', color: 'bg-brutal-yellow' },
+  { value: 'want_to_read', label: 'Want To Read', color: 'bg-white' },
+  { value: 'abandoned', label: 'Abandoned', color: 'bg-brutal-pink' },
 ];
 
 const genres = ['Fiction', 'Non-Fiction', 'Sci-Fi', 'Fantasy', 'Mystery', 'Romance', 'Biography', 'Self-Help', 'History', 'Philosophy', 'Science', 'Business', 'Other'];
@@ -172,7 +172,12 @@ export default function AddBookModal({ open, onClose, editBook }) {
                 </SelectTrigger>
                 <SelectContent className="brutal-border bg-background rounded-none">
                   {statusOptions.map(o => (
-                    <SelectItem key={o.value} value={o.value}>{o.label}</SelectItem>
+                    <SelectItem key={o.value} value={o.value}>
+                      <div className="flex items-center gap-2">
+                        <span className={`w-3.5 h-3.5 rounded-full border border-black ${o.color}`} />
+                        <span>{o.label}</span>
+                      </div>
+                    </SelectItem>
                   ))}
                 </SelectContent>
               </Select>
@@ -270,12 +275,26 @@ export default function AddBookModal({ open, onClose, editBook }) {
 
           <div>
             <Label className="font-display text-sm tracking-wide">COVER IMAGE URL (OPTIONAL)</Label>
-            <Input
-              value={form.cover_url}
-              onChange={(e) => setForm({ ...form, cover_url: e.target.value })}
-              className="brutal-border bg-white h-12 font-body text-base rounded-none"
-              placeholder="Paste custom book cover image URL (e.g. from Google Images)"
-            />
+            <div className="flex gap-3 mt-1">
+              <Input
+                value={form.cover_url}
+                onChange={(e) => setForm({ ...form, cover_url: e.target.value })}
+                className="brutal-border bg-white h-12 font-body text-base rounded-none flex-1"
+                placeholder="Paste custom book cover image URL (e.g. from Google Images)"
+              />
+              {form.cover_url && (
+                <div className="w-12 h-16 brutal-border bg-muted overflow-hidden flex-shrink-0 brutal-shadow-sm">
+                  <img
+                    src={form.cover_url}
+                    alt="Preview"
+                    className="w-full h-full object-cover"
+                    onError={(e) => {
+                      e.target.style.display = 'none';
+                    }}
+                  />
+                </div>
+              )}
+            </div>
           </div>
 
           <div>
