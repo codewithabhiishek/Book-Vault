@@ -4,7 +4,7 @@ import { BookOpen, Settings } from 'lucide-react';
 
 export default function MobileHeader() {
   return (
-    <header className="lg:hidden flex items-center justify-between px-4 py-3 bg-foreground text-background border-b-4 border-foreground sticky top-0 z-40">
+    <header className="lg:hidden flex items-center justify-between px-4 pb-3 pt-[calc(0.75rem+env(safe-area-inset-top))] bg-foreground text-background border-b-4 border-foreground sticky top-0 z-40">
       <Link to="/" className="flex items-center gap-2">
         <div className="w-8 h-8 bg-brutal-teal flex items-center justify-center border-2 border-background">
           <BookOpen className="w-5 h-5 text-black" />

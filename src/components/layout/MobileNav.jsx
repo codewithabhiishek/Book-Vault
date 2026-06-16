@@ -15,7 +15,7 @@ export default function MobileNav() {
 
   return (
     <nav className="lg:hidden fixed bottom-0 left-0 right-0 z-50 bg-foreground border-t-4 border-foreground">
-      <div className="flex justify-around py-2">
+      <div className="flex justify-around pt-2 pb-[calc(0.5rem+env(safe-area-inset-bottom))]">
         {navItems.map(({ path, icon: Icon, label }) => {
           const isActive = location.pathname === path;
           return (
