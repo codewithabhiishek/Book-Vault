@@ -163,38 +163,42 @@ export default function AddBookModal({ open, onClose, editBook }) {
             />
           </div>
 
-          <div className="grid grid-cols-2 gap-4">
-            <div>
-              <Label className="font-display text-sm tracking-wide">STATUS</Label>
-              <Select value={form.status} onValueChange={(v) => setForm({ ...form, status: v })}>
-                <SelectTrigger className="brutal-border bg-white h-12 rounded-none">
-                  <SelectValue />
-                </SelectTrigger>
-                <SelectContent className="brutal-border bg-background rounded-none">
-                  {statusOptions.map(o => (
-                    <SelectItem key={o.value} value={o.value}>
-                      <div className="flex items-center gap-2">
-                        <span className={`w-3.5 h-3.5 rounded-full border border-black ${o.color}`} />
-                        <span>{o.label}</span>
-                      </div>
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
+          <div>
+            <Label className="font-display text-sm tracking-wide">STATUS</Label>
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 mt-1">
+              {statusOptions.map(o => {
+                const isSelected = form.status === o.value;
+                return (
+                  <button
+                    key={o.value}
+                    type="button"
+                    onClick={() => setForm({ ...form, status: o.value })}
+                    className={`h-12 border-4 border-black text-black font-display text-sm tracking-wider uppercase transition-all duration-75 flex items-center justify-center gap-2 rounded-none ${
+                      isSelected
+                        ? `${o.color} translate-x-[3px] translate-y-[3px] shadow-none`
+                        : 'bg-white hover:bg-zinc-50 shadow-[3px_3px_0px_rgba(0,0,0,1)]'
+                    }`}
+                  >
+                    <span className={`w-3 h-3 rounded-full border border-black ${o.color}`} />
+                    {o.label}
+                  </button>
+                );
+              })}
             </div>
-            <div>
-              <Label className="font-display text-sm tracking-wide">GENRE</Label>
-              <Select value={form.genre} onValueChange={(v) => setForm({ ...form, genre: v })}>
-                <SelectTrigger className="brutal-border bg-white h-12 rounded-none">
-                  <SelectValue placeholder="Select genre" />
-                </SelectTrigger>
-                <SelectContent className="brutal-border bg-background rounded-none">
-                  {genres.map(g => (
-                    <SelectItem key={g} value={g}>{g}</SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-            </div>
+          </div>
+
+          <div>
+            <Label className="font-display text-sm tracking-wide">GENRE</Label>
+            <Select value={form.genre} onValueChange={(v) => setForm({ ...form, genre: v })}>
+              <SelectTrigger className="brutal-border bg-white h-12 rounded-none">
+                <SelectValue placeholder="Select genre" />
+              </SelectTrigger>
+              <SelectContent className="brutal-border bg-background rounded-none">
+                {genres.map(g => (
+                  <SelectItem key={g} value={g}>{g}</SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
           </div>
 
           <div className="grid grid-cols-2 gap-4">
