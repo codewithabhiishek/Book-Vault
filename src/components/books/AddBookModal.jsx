@@ -3,10 +3,13 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/u
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Star } from 'lucide-react';
+import { Star, Calendar as CalendarIcon } from 'lucide-react';
 import { Book } from '@/api/entities';
 import { useQueryClient } from '@tanstack/react-query';
 import { toast } from 'sonner';
+import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
+import { Calendar } from '@/components/ui/calendar';
+import { format } from 'date-fns';
 
 const statusOptions = [
   { value: 'reading', label: 'Reading' },
@@ -50,6 +53,12 @@ export default function AddBookModal({ open, onClose, editBook }) {
   });
 
   const [hoverRating, setHoverRating] = useState(0);
+
+  const parseLocalDate = (dateStr) => {
+    if (!dateStr) return undefined;
+    const [year, month, day] = dateStr.split('-').map(Number);
+    return new Date(year, month - 1, day);
+  };
 
   const fetchCover = async (title, author) => {
     // 1. Try Open Library first (returns standard aspect ratio book covers)
@@ -186,21 +195,53 @@ export default function AddBookModal({ open, onClose, editBook }) {
           <div className="grid grid-cols-2 gap-4">
             <div>
               <Label className="font-display text-sm tracking-wide">START DATE</Label>
-              <Input
-                type="date"
-                value={form.start_date}
-                onChange={(e) => setForm({ ...form, start_date: e.target.value })}
-                className="brutal-border bg-white h-12 rounded-none"
-              />
+              <Popover>
+                <PopoverTrigger asChild>
+                  <button
+                    type="button"
+                    className="w-full brutal-border bg-white h-12 px-3 flex items-center justify-between text-left rounded-none hover:bg-zinc-50 transition-colors"
+                  >
+                    <span className="font-mono text-base">
+                      {form.start_date ? format(parseLocalDate(form.start_date), 'dd/MM/yyyy') : 'dd/mm/yyyy'}
+                    </span>
+                    <CalendarIcon className="w-5 h-5 text-muted-foreground" />
+                  </button>
+                </PopoverTrigger>
+                <PopoverContent className="brutal-border brutal-shadow bg-white p-0 rounded-none w-auto" align="start">
+                  <Calendar
+                    mode="single"
+                    selected={form.start_date ? parseLocalDate(form.start_date) : undefined}
+                    onSelect={(date) => setForm({ ...form, start_date: date ? format(date, 'yyyy-MM-dd') : '' })}
+                    initialFocus
+                    className="bg-white text-black"
+                  />
+                </PopoverContent>
+              </Popover>
             </div>
             <div>
               <Label className="font-display text-sm tracking-wide">FINISH DATE</Label>
-              <Input
-                type="date"
-                value={form.finish_date}
-                onChange={(e) => setForm({ ...form, finish_date: e.target.value })}
-                className="brutal-border bg-white h-12 rounded-none"
-              />
+              <Popover>
+                <PopoverTrigger asChild>
+                  <button
+                    type="button"
+                    className="w-full brutal-border bg-white h-12 px-3 flex items-center justify-between text-left rounded-none hover:bg-zinc-50 transition-colors"
+                  >
+                    <span className="font-mono text-base">
+                      {form.finish_date ? format(parseLocalDate(form.finish_date), 'dd/MM/yyyy') : 'dd/mm/yyyy'}
+                    </span>
+                    <CalendarIcon className="w-5 h-5 text-muted-foreground" />
+                  </button>
+                </PopoverTrigger>
+                <PopoverContent className="brutal-border brutal-shadow bg-white p-0 rounded-none w-auto" align="start">
+                  <Calendar
+                    mode="single"
+                    selected={form.finish_date ? parseLocalDate(form.finish_date) : undefined}
+                    onSelect={(date) => setForm({ ...form, finish_date: date ? format(date, 'yyyy-MM-dd') : '' })}
+                    initialFocus
+                    className="bg-white text-black"
+                  />
+                </PopoverContent>
+              </Popover>
             </div>
           </div>
 
