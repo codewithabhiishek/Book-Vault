@@ -7,6 +7,22 @@ import StatCard from '@/components/shared/StatCard';
 
 const COLORS = ['#00C2CB', '#FFD600', '#FF00D6', '#000000', '#F5F1E8', '#FF6B6B'];
 
+const renderCustomizedPieLabel = ({ cx, cy, midAngle, innerRadius, outerRadius, percent, name, x, y }) => {
+  return (
+    <text
+      x={x}
+      y={y}
+      fill="#000000"
+      textAnchor={x > cx ? 'start' : 'end'}
+      dominantBaseline="central"
+      className="font-display text-sm font-bold tracking-wide"
+      style={{ fontFamily: "'Bebas Neue', sans-serif", fontSize: '15px' }}
+    >
+      {`${name} ${(percent * 100).toFixed(0)}%`}
+    </text>
+  );
+};
+
 export default function Stats() {
   const { data: books = [] } = useQuery({
     queryKey: ['books'],
@@ -120,7 +136,7 @@ export default function Stats() {
           {analytics.genreData.length > 0 ? (
             <ResponsiveContainer width="100%" height={250}>
               <PieChart>
-                <Pie data={analytics.genreData} cx="50%" cy="50%" outerRadius={90} dataKey="value" stroke="#000" strokeWidth={3} label={({ name, percent }) => `${name} ${(percent * 100).toFixed(0)}%`}>
+                <Pie data={analytics.genreData} cx="50%" cy="50%" outerRadius={90} dataKey="value" stroke="#000" strokeWidth={3} label={renderCustomizedPieLabel}>
                   {analytics.genreData.map((_, i) => (
                     <Cell key={i} fill={COLORS[i % COLORS.length]} />
                   ))}
