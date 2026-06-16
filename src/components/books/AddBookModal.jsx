@@ -165,7 +165,7 @@ export default function AddBookModal({ open, onClose, editBook }) {
 
           <div>
             <Label className="font-display text-sm tracking-wide">STATUS</Label>
-            <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 mt-1">
+            <div className="grid grid-cols-2 gap-2 mt-1">
               {statusOptions.map(o => {
                 const isSelected = form.status === o.value;
                 return (
