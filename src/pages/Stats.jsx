@@ -102,7 +102,7 @@ export default function Stats() {
         <StatCard icon={BookOpen} label="BOOKS FINISHED" value={analytics.finished} color="bg-brutal-teal" />
         <StatCard icon={FileText} label="PAGES READ" value={analytics.totalPages.toLocaleString()} color="bg-brutal-yellow" />
         <StatCard icon={Star} label="AVG RATING" value={analytics.avgRating} color="bg-brutal-pink text-white" />
-        <StatCard icon={User} label="FAV AUTHOR" value={analytics.favAuthor} color="bg-white" />
+        <StatCard icon={User} label="FAV AUTHOR" value={analytics.favAuthor?.toUpperCase()} color="bg-white" />
         <StatCard icon={BookMarked} label="LONGEST BOOK" value={analytics.longestBook?.pages ? `${analytics.longestBook.pages}p` : '—'} color="bg-brutal-teal" />
         <StatCard icon={Flame} label="TOTAL QUOTES" value={analytics.totalQuotes} color="bg-brutal-yellow" />
       </div>

@@ -78,7 +78,7 @@ export default function Wrapped() {
     {
       icon: User,
       label: 'FAVORITE AUTHOR',
-      title: stats.favAuthor?.[0] || '—',
+      title: (stats.favAuthor?.[0] || '—').toUpperCase(),
       subtitle: stats.favAuthor ? `${stats.favAuthor[1]} books read` : 'Read more to find out',
     },
     {
