@@ -216,7 +216,7 @@ export default function AddBookModal({ open, onClose, editBook }) {
                     <CalendarIcon className="w-5 h-5 text-muted-foreground" />
                   </button>
                 </PopoverTrigger>
-                <PopoverContent className="brutal-border brutal-shadow bg-white p-0 rounded-none w-auto" align="start">
+                <PopoverContent className="brutal-border brutal-shadow bg-white p-0 rounded-none w-auto" align="start" avoidCollisions={false}>
                   <Calendar
                     mode="single"
                     selected={form.start_date ? parseLocalDate(form.start_date) : undefined}
@@ -241,7 +241,7 @@ export default function AddBookModal({ open, onClose, editBook }) {
                     <CalendarIcon className="w-5 h-5 text-muted-foreground" />
                   </button>
                 </PopoverTrigger>
-                <PopoverContent className="brutal-border brutal-shadow bg-white p-0 rounded-none w-auto" align="start">
+                <PopoverContent className="brutal-border brutal-shadow bg-white p-0 rounded-none w-auto" align="end" avoidCollisions={false}>
                   <Calendar
                     mode="single"
                     selected={form.finish_date ? parseLocalDate(form.finish_date) : undefined}
