@@ -14,7 +14,7 @@ import { format } from 'date-fns';
 const statusOptions = [
   { value: 'reading', label: 'Reading', color: 'bg-brutal-teal' },
   { value: 'finished', label: 'Finished', color: 'bg-brutal-yellow' },
-  { value: 'want_to_read', label: 'Want To Read', color: 'bg-white' },
+  { value: 'want_to_read', label: 'Want To Read', color: 'bg-indigo-300' },
   { value: 'abandoned', label: 'Abandoned', color: 'bg-brutal-pink' },
 ];
 
