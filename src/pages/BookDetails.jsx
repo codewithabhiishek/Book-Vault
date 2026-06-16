@@ -9,6 +9,7 @@ import AddBookModal from '@/components/books/AddBookModal';
 import AddQuoteModal from '@/components/quotes/AddQuoteModal';
 import QuoteCard from '@/components/quotes/QuoteCard';
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from '@/components/ui/alert-dialog';
+import { toast } from 'sonner';
 
 export default function BookDetails() {
   const { id } = useParams();
@@ -16,6 +17,37 @@ export default function BookDetails() {
   const queryClient = useQueryClient();
   const [showEditBook, setShowEditBook] = useState(false);
   const [showAddQuote, setShowAddQuote] = useState(false);
+  const [isUpdatingPages, setIsUpdatingPages] = useState(false);
+
+  const handleUpdatePages = async (newPagesRead) => {
+    const pagesNum = Number(newPagesRead);
+    if (isNaN(pagesNum) || pagesNum < 0 || (book.pages > 0 && pagesNum > book.pages)) {
+      toast.error(book.pages > 0 ? `Please enter a valid page number between 0 and ${book.pages}` : "Please enter a valid page number");
+      return;
+    }
+    
+    setIsUpdatingPages(true);
+    try {
+      const isFinished = book.pages > 0 && pagesNum === book.pages;
+      const updatedData = {
+        pages_read: pagesNum,
+        status: isFinished ? 'finished' : book.status,
+      };
+      if (isFinished && !book.finish_date) {
+        updatedData.finish_date = new Date().toISOString().split('T')[0];
+      }
+      
+      await Book.update(book.id, updatedData);
+      queryClient.invalidateQueries({ queryKey: ['book', id] });
+      queryClient.invalidateQueries({ queryKey: ['books'] });
+      toast.success(isFinished ? "Congrats on finishing the book! 🎉" : "Progress updated!");
+    } catch (err) {
+      console.error(err);
+      toast.error("Failed to update progress.");
+    } finally {
+      setIsUpdatingPages(false);
+    }
+  };
 
   const { data: book, isLoading } = useQuery({
     queryKey: ['book', id],
@@ -135,14 +167,89 @@ export default function BookDetails() {
           </div>
 
           {book.status === 'reading' && book.pages > 0 && (
-            <div className="mb-6">
+            <div className="mb-8">
               <div className="flex justify-between text-sm font-display tracking-wide mb-1">
                 <span>PROGRESS</span>
                 <span>{progress}%</span>
               </div>
-              <div className="w-full h-5 bg-muted brutal-border">
+              <div className="w-full h-5 bg-muted brutal-border mb-4">
                 <div className="h-full bg-brutal-teal transition-all duration-500" style={{ width: `${progress}%` }} />
               </div>
+              
+              {/* Quick Progress Update Panel */}
+              <div className="flex flex-wrap items-center gap-3 bg-white brutal-border p-4 max-w-md brutal-shadow">
+                <span className="font-display text-sm tracking-wide">QUICK UPDATE:</span>
+                <div className="flex items-center gap-2">
+                  <button
+                    onClick={() => handleUpdatePages(Math.max(0, book.pages_read - 1))}
+                    disabled={isUpdatingPages || book.pages_read <= 0}
+                    className="w-10 h-10 brutal-btn bg-white text-black font-heading text-xl flex items-center justify-center disabled:opacity-50"
+                  >
+                    -
+                  </button>
+                  <div className="flex items-center gap-1">
+                    <input
+                      type="number"
+                      min="0"
+                      max={book.pages}
+                      defaultValue={book.pages_read}
+                      key={book.pages_read}
+                      onBlur={(e) => {
+                        if (Number(e.target.value) !== book.pages_read) {
+                          handleUpdatePages(e.target.value);
+                        }
+                      }}
+                      onKeyDown={(e) => {
+                        if (e.key === 'Enter') {
+                          handleUpdatePages(e.target.value);
+                          e.target.blur();
+                        }
+                      }}
+                      className="w-16 h-10 brutal-border bg-white text-black text-center font-mono text-lg"
+                    />
+                    <span className="font-display text-muted-foreground text-sm">/ {book.pages}</span>
+                  </div>
+                  <button
+                    onClick={() => handleUpdatePages(Math.min(book.pages, book.pages_read + 1))}
+                    disabled={isUpdatingPages || book.pages_read >= book.pages}
+                    className="w-10 h-10 brutal-btn bg-brutal-teal text-black font-heading text-xl flex items-center justify-center disabled:opacity-50"
+                  >
+                    +
+                  </button>
+                </div>
+                
+                <button
+                  onClick={() => handleUpdatePages(book.pages)}
+                  disabled={isUpdatingPages || book.pages_read >= book.pages}
+                  className="brutal-btn bg-brutal-yellow text-black px-4 py-2 font-display text-sm tracking-widest ml-auto"
+                >
+                  FINISH
+                </button>
+              </div>
+            </div>
+          )}
+
+          {book.status === 'want_to_read' && (
+            <div className="mb-8">
+              <button
+                onClick={async () => {
+                  try {
+                    await Book.update(book.id, {
+                      status: 'reading',
+                      start_date: new Date().toISOString().split('T')[0]
+                    });
+                    queryClient.invalidateQueries({ queryKey: ['book', id] });
+                    queryClient.invalidateQueries({ queryKey: ['books'] });
+                    toast.success("Added to Currently Reading! Happy reading! 📖");
+                  } catch (err) {
+                    console.error(err);
+                    toast.error("Failed to start reading.");
+                  }
+                }}
+                className="brutal-btn bg-brutal-teal text-black px-6 py-3 font-display text-lg tracking-widest flex items-center gap-2"
+              >
+                START READING
+              </button>
             </div>
           )}
 
