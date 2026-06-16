@@ -152,7 +152,7 @@ select.bg-white,
 [data-radix-popper-content-wrapper] select,
 .bg-white select,
 .bg-white input,
-button.bg-white {
+button.bg-white:not(.brutal-btn) {
   color: #000000 !important;
   font-family: 'Space Mono', monospace !important;
 }
