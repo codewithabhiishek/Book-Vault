@@ -279,7 +279,18 @@ export default function AddBookModal({ open, onClose, editBook }) {
           </div>
 
           <div>
-            <Label className="font-display text-sm tracking-wide">RATING</Label>
+            <div className="flex justify-between items-center">
+              <Label className="font-display text-sm tracking-wide">RATING</Label>
+              {form.rating > 0 && (
+                <button
+                  type="button"
+                  onClick={() => setForm({ ...form, rating: 0 })}
+                  className="text-xs font-display tracking-wider text-muted-foreground hover:text-destructive transition-colors"
+                >
+                  CLEAR RATING
+                </button>
+              )}
+            </div>
             <div className="flex gap-1 mt-1">
               {[1, 2, 3, 4, 5].map(star => {
                 const currentRating = hoverRating || form.rating;
@@ -287,7 +298,10 @@ export default function AddBookModal({ open, onClose, editBook }) {
                   <button
                     key={star}
                     type="button"
-                    onClick={() => setForm({ ...form, rating: hoverRating || star })}
+                    onClick={() => {
+                      const nextRating = hoverRating || star;
+                      setForm({ ...form, rating: form.rating === nextRating ? 0 : nextRating });
+                    }}
                     onMouseMove={(e) => {
                       const rect = e.currentTarget.getBoundingClientRect();
                       const x = e.clientX - rect.left;
